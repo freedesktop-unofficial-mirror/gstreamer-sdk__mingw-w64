@@ -1,3 +1,63 @@
+2012-02-24  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from the trunk revs. 4790, 4807, 4809, 4815, 4816 and
+	4817 by wavael to fix some embarassing issues in dxva2api.h:
+	* dxva2api.h (Direct3DDeviceManager9): Fix COBJMACROS to use lpVtbl.
+	(DirectXVideoDecoder): Likewise.
+	(DirectXVideoAccelerationService): Likewise.
+	(DirectXVideoDecoderService): Likewise.
+	(DXVA2_E_NOT_INITIALIZED): Add missing error code.
+	(DXVA2_E_NEW_VIDEO_DEVICE): Likewise.
+	(DXVA2_E_VIDEO_DEVICE_LOCKED): Likewise.
+	(DXVA2_E_NOT_AVAILABLE): Likewise.
+	(DXVA2_ConfigPictureDecode): Change type from UINT to USHORT (msdn
+	documentation is incorrect.)
+	* dxva2api.h: Remove global packing directives and pack only the
+	DXVA_FilmGrainChar_H264, DXVA_SliceInfo and DXVA_Slice_H264_Short
+	structures.
+
+2012-01-26  Kai Tietz  <ktietz@redhat.com>
+
+	* nldef.h (NL_INTERFACE_OFFLOAD_ROD): Remove
+	TlStreamFastPathCompatible and TlDatagramFastPathCompatible
+	members, which are merged into FastPathCompatible.
+	(note msdn is wrong here).
+
+2012-01-26  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* mprapi.h (MprAdminConnectionRemoveQuarantine): Revert
+	to old definition which is correct by marking the function
+	as WINAPI.
+
+2012-01-25  Kai Tietz  <ktietz@redhat.com>
+
+	* iprtrmib.h (MIB_TCP_STATE): New typedef.
+
+	* mprapi.h (MprAdminConnectionRemoveQuarantine): Remove
+	double definition.
+
+2012-01-19  Kai Tietz  <ktietz@redhat.com>
+
+	PR 3474190
+	* windef.h (STRICT): Regard definition of NO_STRICT.
+
+2012-01-06  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* winuser.h: Fix several typos found by Rinrin <rinrin@imbrian.org>:
+	(TOUCHEVENTMASKF_TIMEFROMSYSTEM): Rename to
+	 TOUCHINPUTMASKF_TIMEFROMSYSTEM.
+	(TOUCHEVENTMASKF_EXTRAINFO): Rename to TOUCHINPUTMASKF_EXTRAINFO.
+	(TOUCHEVENTMASKF_CONTACTAREA): Rename to TOUCHINPUTMASKF_CONTACTAREA.
+	(struct _TOUCHINPUT): Fix member name from wMask to dwMask.
+
+2012-01-04  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* wingdi.h: Uglify the function param names a bit for bug #3469308
+
+2011-12-14  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* winnls.h (WC_ERR_INVALID_CHARS): New macro, defined as 0x80.
+
 2011-11-19  Ozkan Sezer  <sezeroz@gmail.com>
 
 	* wincon.h: Added MOUSE_HWHEELED (0x8).  Moved the Vista version guard

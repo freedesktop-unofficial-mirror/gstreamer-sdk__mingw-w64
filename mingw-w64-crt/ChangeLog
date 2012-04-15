@@ -1,3 +1,56 @@
+2012-01-19  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Partially revert rev. 3656:
+	* libsrc/agtctl_i.c: Remove from libuuid.a build rule and install
+	as is under $(prefix)/$(host)/libsrc/
+	* libsrc/agtsvr_i.c: Likewise.
+	* libsrc/cdoex_i.c: Likewise.
+	* libsrc/cdoexm_i.c: Likewise.
+	* libsrc/cdosys_i.c: Likewise.
+	* libsrc/emostore_i.c: Likewise.
+	* libsrc/iisext_i.c: Likewise.
+	* libsrc/mtsadmin_i.c: Likewise.
+	* libsrc/mtxadmin_i.c: Likewise.
+	* libsrc/scardssp_i.c: Likewise.
+	* libsrc/scardssp_p.c: Likewise.
+	* libsrc/tsuserex_i.c: Likewise.
+
+2012-01-18  Kai Tietz  <ktietz@redhat.com>
+
+	PR 3463580
+	* testcases/t_exp_denormal.c: New test.
+	* testcases/t_powi.c: New test.
+	* complex/complex_internal.h (
+	* math/exp.def.h: Adjust error-report for range-min.
+	* math/powi.def.h: New file.
+	* math/powif.c: Rewrite to use powi.def.h.
+	* math/powi.c: Likewise.
+	* math/powil.c: Likewise.
+
+2012-01-17  Daniel Green  <venix1@gmail.com>
+
+	* stdio/mingw_pformat.c (__pformat): Correct 'l' length modifier
+	to follow C99 specification (7.19.6.1) with Windows.
+
+2011-12-20  Kai Tietz  <ktietz@redhat.com> (merge trunk revs.4680 & 4687)
+
+	* crt/pseudo-reloc.c (__write_memory): Add fallback for systems
+	not allocating section within one VirtualAlloc block.  Add some
+	more error-debugging for VirtualProtect call for having a chance
+	to find random issues about it.
+
+2011-12-19  Kai TIetz  <ktietz@redhat.com>
+
+	* stdio/vasprintf.c: Make sure operand order on dereferencing
+	is fixed.
+	* stdio/asprintf.c: Likewise.
+
+2011-12-17  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* lib32/msi.def: New.
+	* Makefile.am (lib32_DATA): Add lib32/msi.def to build.
+	* Makefile.in: Regenerate.
+
 2011-11-17  Ozkan Sezer  <sezeroz@gmail.com>
 
 	* stdio/mingw_pformat.c (__pformat_cvt): Add missing initializer

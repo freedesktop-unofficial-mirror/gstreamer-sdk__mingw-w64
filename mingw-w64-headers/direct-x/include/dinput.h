@@ -153,6 +153,7 @@ DECL_WINELIB_TYPE_AW(LPDIRECTINPUTDEVICE8)
 #define DI_DOWNLOADSKIPPED              ((HRESULT)0x00000003L)
 #define DI_EFFECTRESTARTED              ((HRESULT)0x00000004L)
 #define DI_TRUNCATED                    ((HRESULT)0x00000008L)
+#define DI_SETTINGSNOTSAVED             ((HRESULT)0x0000000BL)
 #define DI_TRUNCATEDANDRESTARTED        ((HRESULT)0x0000000CL)
 
 #define DIERR_OLDDIRECTINPUTVERSION     \
@@ -205,7 +206,7 @@ DECL_WINELIB_TYPE_AW(LPDIRECTINPUTDEVICE8)
 #define DIENUM_CONTINUE                 1
 
 #define DIEDFL_ALLDEVICES               0x00000000
-#define DIEDFL_ATTACHEDONLY             0x00000000
+#define DIEDFL_ATTACHEDONLY             0x00000001
 #define DIEDFL_FORCEFEEDBACK            0x00000100
 #define DIEDFL_INCLUDEALIASES           0x00010000
 #define DIEDFL_INCLUDEPHANTOMS          0x00020000
@@ -1240,7 +1241,7 @@ typedef struct _DIACTIONA {
 	UINT_PTR	uAppData;
 	DWORD		dwSemantic;
 	DWORD		dwFlags;
-	union {
+	__GNU_EXTENSION union {
 		LPCSTR	lptszActionName;
 		UINT	uResIdString;
 	} DUMMYUNIONNAME;
@@ -1254,7 +1255,7 @@ typedef struct _DIACTIONW {
 	UINT_PTR	uAppData;
 	DWORD		dwSemantic;
 	DWORD		dwFlags;
-	union {
+	__GNU_EXTENSION union {
 		LPCWSTR	lptszActionName;
 		UINT	uResIdString;
 	} DUMMYUNIONNAME;

@@ -133,7 +133,11 @@ extern "C" {
 #endif
 
 #ifndef NOP_FUNCTION
+#if (_MSC_VER >= 1210)
+#define NOP_FUNCTION __noop
+#else
 #define NOP_FUNCTION (void)0
+#endif
 #endif
 
 #ifndef DECLSPEC_NOINLINE
@@ -4281,6 +4285,7 @@ inline ENUMTYPE &operator ^= (ENUMTYPE &a, ENUMTYPE b) { return (ENUMTYPE &)(((i
 #define IMAGE_FILE_MACHINE_SH4 0x01a6
 #define IMAGE_FILE_MACHINE_SH5 0x01a8
 #define IMAGE_FILE_MACHINE_ARM 0x01c0
+#define IMAGE_FILE_MACHINE_ARMV7 0x01c4
 #define IMAGE_FILE_MACHINE_THUMB 0x01c2
 #define IMAGE_FILE_MACHINE_AM33 0x01d3
 #define IMAGE_FILE_MACHINE_POWERPC 0x01F0

@@ -16,9 +16,9 @@ int __mingw_vasprintf(char ** __restrict__ ret,
   /* Check malloc fail*/
   if (!*ret) return -1;
   /* Write String */
-  __mingw_vsnprintf(*ret,len,format,ap);
+  __mingw_vsnprintf(*ret,len+1,format,ap);
   /* Terminate explicitly */
-  *ret[len] = '\0';
+  (*ret)[len] = '\0';
   return len;
 }
 
