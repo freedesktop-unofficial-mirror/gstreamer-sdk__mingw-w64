@@ -1,3 +1,142 @@
+2013-01-31  Jacek Caban  <jacek@codeweavers.com>
+
+	Merge from trunk r5525:
+	* winbase.h: Use wrapper instead of macro for GetCurrentTime in C++
+
+2013-01-31  Kai Tietz  <ktietz@redhat.com>
+
+	Merge from trunk r5573-r5574:
+	* mstcpip.h: Correct RtlIpv6StringToAddressExW, RtlIpv6AddressToStringA
+	and RtlIpv6AddressToStringW prototypes.
+	Merge from trunk r5531:
+	* winnls.h (NormalizeString): Remove duplicate.
+
+2012-12-07  Jason Hood  <adoxa@users.sourceforge.net>
+
+	* winbase.h (LOAD_LIBRARY_AS_IMAGE_RESOURCE): Fix typo.
+
+2012-11-14  Corinna Vinschen  <vinschen@redhat.com>
+
+	* winternl.h (struct _FILE_FULL_DIR_INFORMATION): Rename from
+	_FILE_FULL_DIRECTORY_INFORMATION per WDK documentation.
+	(struct _FILE_ID_FULL_DIR_INFORMATION): Rename from
+	_FILE_ID_FULL_DIRECTORY_INFORMATION.
+	(struct _FILE_BOTH_DIR_INFORMATION): Rename from
+	_FILE_BOTH_DIRECTORY_INFORMATION.
+	(struct _FILE_ID_BOTH_DIR_INFORMATION): Rename from
+	_FILE_ID_BOTH_DIRECTORY_INFORMATION.
+	(FILE_FULL_DIRECTORY_INFORMATION, PFILE_FULL_DIRECTORY_INFORMATION,
+	FILE_ID_FULL_DIRECTORY_INFORMATION, PFILE_ID_FULL_DIRECTORY_INFORMATION,
+	FILE_BOTH_DIRECTORY_INFORMATION, PFILE_BOTH_DIRECTORY_INFORMATION,
+	FILE_ID_BOTH_DIRECTORY_INFORMATION,
+	PFILE_ID_BOTH_DIRECTORY_INFORMATION): Explicitely typedef in a new
+	block.  Add comment to describe as being outdated.
+
+2012-11-13  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from trunk rev. 5452:
+	Corinna Vinschen  <vinschen@redhat.com>
+	* winternl.h (SYSTEM_BASIC_INFORMATION): Change type of address
+	members to match 64 bit systems.
+
+2012-11-05  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from trunk rev. 5445:
+	Jonathan Yong  <jon_y@users.sourceforge.net>
+	* icmpapi.h: IcmpParseReplies and Icmp6ParseReplies are actually
+	stdcall.
+
+2012-09-20  Kai Tietz  <ktietz@redhat.com>
+
+	PR 3561209
+	* wincrypt.h (szOID_NIST_AES128_CBC): New.
+	(szOID_NIST_AES192_CBC): Likewise.
+	(szOID_NIST_AES256_CBC): Likewise.
+
+2012-08-29  Yaakov Selkowitz  <yselkowitz@users.sourceforge.net>
+
+	* winternl.h (_FILE_RENAME_INFORMATION): Fix member names per MSDN.
+	(NtQueryInformationFile): Change type of len to ULONG per MSDN.
+
+2012-08-01  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from trunk rev. 5245:
+	Kai Tietz  <ktietz@redhat.com>
+	* msxml.h, msxml2.h: Make abort agnostic against user-defines.
+
+	Merge from trunk rev. 5236:
+	Corinna Vinschen  <vinschen@redhat.com>
+	* usb.h: Check for _WIN64 instead of WIN64.
+
+2012-07-11  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* tapi.h: Move the unicode A/W macros after the function prototypes.
+	(lineAddProvider,lineBlindTransfer,lineConfigDialog,
+	lineConfigDialogEdit,lineDial,lineGatherDigits,lineGenerateDigits,
+	lineGetAddressID,lineGetAppPriority,lineGetDevConfig,lineGetIcon,
+	lineGetID,lineHandoff,lineMakeCall,linePark,linePickup,lineRedirect,
+	lineSetAppPriority,lineSetDevConfig,lineSetTollList,
+	lineTranslateAddress,lineTranslateDialog,lineUnpark,phoneConfigDialog,
+	phoneGetIcon,phoneGetID,tapiGetLocationInfo,tapiRequestMakeCall,
+	tapiRequestMediaCall): Define as *A variant only for TAPI2 or newer,
+	but always define as *W variant when UNICODE is defined.
+
+2012-06-29  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from the trunk revs. 4808 and 5149:
+	2012-02-07  Rafaël Carré  <funman@videolan.org>
+	* dxva2api.h : Add missing UUIDS
+	2012-06-28  Rafaël Carré  <funman@videolan.org>
+	* dxva2api.h: Remove DXVA_* GUIDs and structs ...
+	* dxva.h: ... And put them here.
+
+2012-06-28  Corinna Vinschen  <vinschen@redhat.com>
+
+	* ntdef.h (PHYSICAL_ADDRESS): Define unconditionally.
+
+2012-06-27  Corinna Vinschen  <vinschen@redhat.com>
+
+	* include/stralign.h: Fix and add #endif comments.
+
+2012-05-09  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* winuser.h (MAPVK_VK_TO_*): Moved map types for MapVirtualKeyEx
+	out of win7 ifdefs. Protected MAPVK_VK_TO_VSC_EX for vista-only.
+	* winuser.h (HTOUCHINPUT): Added new declaration (merged trunk
+	rev. 4810 by cjacek.)
+
+2012-05-08  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* uxtheme.h (MAX_INTLIST_COUNT): Define as 402 instead of 10 for
+	vista and newer. (bug #3524667).
+
+2012-05-07  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* dwmapi.h: Fixed all function prototypes to be WINAPI.
+
+2012-04-28  Jonathan Liu  <net147@users.sourceforge.net>
+
+	* wlanapi.h: Fixed incorrectly nested if blocks.
+
+2012-04-23  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from the trunk revs. 4961/4962:
+	2012-04-23  Stefan Sundin  <recover89@gmail.com>
+	* adhoc.h, audioengineendpoint.h, bdaiface.h, dvbsiparser.h, dwrite.h,
+	dxvahd.h, evr.h, fsrm.h, fsrmquota.h, fsrmreports.h, fsrmscreen.h,
+	functiondiscoveryapi.h, functiondiscoverynotification.h,
+	identitystore.h, locationapi.h, mfapi.h, mfidl.h, mfobjects.h,
+	mfplay.h, mfreadwrite.h, mftransform.h, mpeg2data.h, mpeg2psiparser.h,
+	msrdc.h, ndhelper.h, opmapi.h, portabledeviceconnectapi.h,
+	rdpencomapi.h, strmif.h, tuner.h, vsadmin.h, vsbackup.h, vsmgmt.h,
+	vsprov.h, vss.h, vswriter.h, winsync.h, wmcontainer.h, wsdattachment.h,
+	wsdbase.h, wsdclient.h, wsddisco.h, wsdhost.h, wsdxml.h: Fix incorrect
+	references for pVtbl to lpVtbl.
+	* adhoc.h (IDot11AdHocInterfaceNotificationSink): Fix
+	OnConnectionStatusChange.
+	2012-04-23  Kai Tietz  <ktietz@redhat.com>
+	* endpointvolume.h (IAudioEndpointVolume): Fix. (PR/3520095)
+
 2012-02-24  Ozkan Sezer  <sezeroz@gmail.com>
 
 	Merge from the trunk revs. 4790, 4807, 4809, 4815, 4816 and
@@ -32,7 +171,6 @@
 2012-01-25  Kai Tietz  <ktietz@redhat.com>
 
 	* iprtrmib.h (MIB_TCP_STATE): New typedef.
-
 	* mprapi.h (MprAdminConnectionRemoveQuarantine): Remove
 	double definition.
 

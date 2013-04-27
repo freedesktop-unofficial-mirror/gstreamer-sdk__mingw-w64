@@ -4,8 +4,8 @@
  * No warranty is given; refer to the file DISCLAIMER.PD within this package.
  */
 
-#ifndef _INC_CRTDEFS
-#define _INC_CRTDEFS
+#ifndef _INC__MINGW_H
+#define _INC__MINGW_H
 
 #include "_mingw_mac.h"
 
@@ -53,6 +53,14 @@ limitations in handling dllimport attribute.  */
 #  endif
 # endif /* __declspec */
 #endif /* __GNUC__ */
+
+#if __GNUC__
+#define __MINGW_GCC_VERSION	(__GNUC__	* 10000	+ \
+				 __GNUC_MINOR__	* 100	+ \
+				 __GNUC_PATCHLEVEL__)
+#else
+#define __MINGW_GCC_VERSION				0
+#endif
 
 #if defined (__GNUC__) && defined (__GNUC_MINOR__)
 #define __MINGW_GNUC_PREREQ(major, minor) \
@@ -252,6 +260,10 @@ limitations in handling dllimport attribute.  */
 #define __int32 int
 #define __int64 long long
 #ifdef _WIN64
+#if (__clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 1)) && \
+    !defined(__SIZEOF_INT128__) /* clang >= 3.1 has __int128 but no size macro */
+#define __SIZEOF_INT128__ 16
+#endif
 #ifndef __SIZEOF_INT128__
 typedef int __int128 __attribute__ ((__mode__ (TI)));
 #endif
@@ -622,7 +634,8 @@ typedef __time64_t time_t;
 #define __CRT_UUID_DECL(type,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)           \
     extern "C++" {                                                      \
     template<> inline const GUID &__mingw_uuidof<type>() {              \
-        return (const IID){l,w1,w2, {b1,b2,b3,b4,b5,b6,b7,b8}};         \
+        static const IID __uuid_inst = {l,w1,w2, {b1,b2,b3,b4,b5,b6,b7,b8}}; \
+        return __uuid_inst;                                             \
     }                                                                   \
     template<> inline const GUID &__mingw_uuidof<type*>() {             \
         return __mingw_uuidof<type>();                                  \
@@ -636,58 +649,6 @@ typedef __time64_t time_t;
 #define __CRT_UUID_DECL(type,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)
 
 #endif
-
-
-/* MSVC-isms: */
-
-struct threadlocaleinfostruct;
-struct threadmbcinfostruct;
-typedef struct threadlocaleinfostruct *pthreadlocinfo;
-typedef struct threadmbcinfostruct *pthreadmbcinfo;
-struct __lc_time_data;
-
-typedef struct localeinfo_struct {
-  pthreadlocinfo locinfo;
-  pthreadmbcinfo mbcinfo;
-} _locale_tstruct,*_locale_t;
-
-#ifndef _TAGLC_ID_DEFINED
-#define _TAGLC_ID_DEFINED
-typedef struct tagLC_ID {
-  unsigned short wLanguage;
-  unsigned short wCountry;
-  unsigned short wCodePage;
-} LC_ID,*LPLC_ID;
-#endif /* _TAGLC_ID_DEFINED */
-
-#ifndef _THREADLOCALEINFO
-#define _THREADLOCALEINFO
-typedef struct threadlocaleinfostruct {
-  int refcount;
-  unsigned int lc_codepage;
-  unsigned int lc_collate_cp;
-  unsigned long lc_handle[6];
-  LC_ID lc_id[6];
-  struct {
-    char *locale;
-    wchar_t *wlocale;
-    int *refcount;
-    int *wrefcount;
-  } lc_category[6];
-  int lc_clike;
-  int mb_cur_max;
-  int *lconv_intl_refcount;
-  int *lconv_num_refcount;
-  int *lconv_mon_refcount;
-  struct lconv *lconv;
-  int *ctype1_refcount;
-  unsigned short *ctype1;
-  const unsigned short *pctype;
-  const unsigned char *pclmap;
-  const unsigned char *pcumap;
-  struct __lc_time_data *lc_time_curr;
-} threadlocinfo;
-#endif /* _THREADLOCALEINFO */
 
 #ifdef __cplusplus
 extern "C" {
@@ -712,7 +673,7 @@ const char *__mingw_get_crt_info (void);
 
 #pragma pack(pop)
 
-#endif /* _INC_CRTDEFS */
+#endif /* _INC__MINGW_H */
 
 #ifndef MINGW_SDK_INIT
 #define MINGW_SDK_INIT

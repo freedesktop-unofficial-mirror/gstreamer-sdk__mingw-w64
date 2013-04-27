@@ -1,6 +1,6 @@
 /**
  * This file has no copyright assigned and is placed in the Public Domain.
- * This file is part of the w64 mingw-runtime package.
+ * This file is part of the mingw-w64 runtime package.
  * No warranty is given; refer to the file DISCLAIMER.PD within this package.
  *
  * Written by Kai Tietz  <kai.tietz@onevision.com>
@@ -20,9 +20,6 @@
 #include <stdio.h>
 #include <memory.h>
 #include <malloc.h>
-#ifndef _WIN64
-#include <stdlib.h> /* for _winmajor */
-#endif
 
 #ifndef __INTERNAL_FUNC_DEFINED
 #define __INTERNAL_FUNC_DEFINED
@@ -43,15 +40,18 @@ typedef struct TlsDtorNode {
 
 ULONG _tls_index = 0;
 
-/* TLS raw template data start and end. */
-_CRTALLOC(".tls$AAA") char _tls_start = 0;
-_CRTALLOC(".tls$ZZZ") char _tls_end = 0;
+/* TLS raw template data start and end. 
+   We use here pointer-types for start/end so that tls-data remains
+   aligned on pointer-size-width.  This seems to be required for
+   pe-loader. */
+_CRTALLOC(".tls$AAA") char *_tls_start = NULL;
+_CRTALLOC(".tls$ZZZ") char *_tls_end = NULL;
 
 _CRTALLOC(".CRT$XLA") PIMAGE_TLS_CALLBACK __xl_a = 0;
 _CRTALLOC(".CRT$XLZ") PIMAGE_TLS_CALLBACK __xl_z = 0;
 
 _CRTALLOC(".tls") const IMAGE_TLS_DIRECTORY _tls_used = {
-  (ULONG_PTR) &_tls_start+1, (ULONG_PTR) &_tls_end,
+  (ULONG_PTR) &_tls_start, (ULONG_PTR) &_tls_end,
   (ULONG_PTR) &_tls_index, (ULONG_PTR) (&__xl_a+1),
   (ULONG) 0, (ULONG) 0
 };
@@ -76,16 +76,6 @@ static __CRT_THREAD TlsDtorNode dtor_list_head;
 
 extern int _CRT_MT;
 
-#ifndef _WIN64
-#define MINGWM10_DLL "mingwm10.dll"
-typedef int (*fMTRemoveKeyDtor)(DWORD key);
-typedef int (*fMTKeyDtor)(DWORD key, void (*dtor)(void *));
-fMTRemoveKeyDtor __mingw_gMTRemoveKeyDtor;
-fMTKeyDtor __mingw_gMTKeyDtor;
-int __mingw_usemthread_dll;
-static HANDLE __mingw_mthread_hdll;
-#endif
-
 BOOL WINAPI __dyn_tls_init (HANDLE, DWORD, LPVOID);
 
 BOOL WINAPI
@@ -94,30 +84,6 @@ __dyn_tls_init (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
   _PVFV *pfunc;
   uintptr_t ps;
 
-#ifndef _WIN64
-  if (_winmajor < 4)
-  {
-    __mingw_usemthread_dll = 1;
-    __mingw_mthread_hdll = LoadLibrary (MINGWM10_DLL);
-    if (__mingw_mthread_hdll != NULL)
-    {
-      __mingw_gMTRemoveKeyDtor = (fMTRemoveKeyDtor) GetProcAddress (__mingw_mthread_hdll, "__mingwthr_remove_key_dtor");
-      __mingw_gMTKeyDtor = (fMTKeyDtor)  GetProcAddress (__mingw_mthread_hdll, "__mingwthr_key_dtor");
-    }
-    if (__mingw_mthread_hdll == NULL || !__mingw_gMTRemoveKeyDtor || !__mingw_gMTKeyDtor)
-      {
-	__mingw_gMTKeyDtor = NULL;
-	__mingw_gMTRemoveKeyDtor = NULL;
-	if (__mingw_mthread_hdll)
-	  FreeLibrary (__mingw_mthread_hdll);
-	__mingw_mthread_hdll = NULL;
-	_CRT_MT = 0;
-	return TRUE;
-      }
-    _CRT_MT = 1;
-    return TRUE;
-  }
-#endif
   /* We don't let us trick here.  */
   if (_CRT_MT != 2)
    _CRT_MT = 2;

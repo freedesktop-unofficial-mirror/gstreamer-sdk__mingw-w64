@@ -229,7 +229,7 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
     WCHAR FileName[ANYSIZE_ARRAY];
   } FILE_DIRECTORY_INFORMATION, *PFILE_DIRECTORY_INFORMATION;
 
-  typedef struct _FILE_FULL_DIRECTORY_INFORMATION {
+  typedef struct _FILE_FULL_DIR_INFORMATION {
     ULONG NextEntryOffset;
     ULONG FileIndex;
     LARGE_INTEGER CreationTime;
@@ -242,9 +242,9 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
     ULONG FileNameLength;
     ULONG EaSize;
     WCHAR FileName[ANYSIZE_ARRAY];
-  } FILE_FULL_DIRECTORY_INFORMATION, *PFILE_FULL_DIRECTORY_INFORMATION,FILE_FULL_DIR_INFORMATION, *PFILE_FULL_DIR_INFORMATION;
+  } FILE_FULL_DIR_INFORMATION, *PFILE_FULL_DIR_INFORMATION;
 
-  typedef struct _FILE_ID_FULL_DIRECTORY_INFORMATION {
+  typedef struct _FILE_ID_FULL_DIR_INFORMATION {
     ULONG NextEntryOffset;
     ULONG FileIndex;
     LARGE_INTEGER CreationTime;
@@ -258,9 +258,9 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
     ULONG EaSize;
     LARGE_INTEGER FileId;
     WCHAR FileName[ANYSIZE_ARRAY];
-  } FILE_ID_FULL_DIRECTORY_INFORMATION, *PFILE_ID_FULL_DIRECTORY_INFORMATION;
+  } FILE_ID_FULL_DIR_INFORMATION, *PFILE_ID_FULL_DIR_INFORMATION;
 
-  typedef struct _FILE_BOTH_DIRECTORY_INFORMATION {
+  typedef struct _FILE_BOTH_DIR_INFORMATION {
     ULONG NextEntryOffset;
 	 ULONG FileIndex;
     LARGE_INTEGER CreationTime;
@@ -275,9 +275,9 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
     CHAR ShortNameLength;
     WCHAR ShortName[12];
     WCHAR FileName[ANYSIZE_ARRAY];
-  } FILE_BOTH_DIRECTORY_INFORMATION, *PFILE_BOTH_DIRECTORY_INFORMATION,FILE_BOTH_DIR_INFORMATION, *PFILE_BOTH_DIR_INFORMATION;
+  } FILE_BOTH_DIR_INFORMATION, *PFILE_BOTH_DIR_INFORMATION;
 
-  typedef struct _FILE_ID_BOTH_DIRECTORY_INFORMATION {
+  typedef struct _FILE_ID_BOTH_DIR_INFORMATION {
     ULONG NextEntryOffset;
     ULONG FileIndex;
     LARGE_INTEGER CreationTime;
@@ -293,7 +293,18 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
     WCHAR ShortName[12];
     LARGE_INTEGER FileId;
     WCHAR FileName[ANYSIZE_ARRAY];
-  } FILE_ID_BOTH_DIRECTORY_INFORMATION, *PFILE_ID_BOTH_DIRECTORY_INFORMATION;
+  } FILE_ID_BOTH_DIR_INFORMATION, *PFILE_ID_BOTH_DIR_INFORMATION;
+
+  /* Old names of dir info structures as (partially) used in Nebbitt's
+     Native API Reference.  Keep for backward compatibility. */
+  typedef struct _FILE_FULL_DIR_INFORMATION
+    FILE_FULL_DIRECTORY_INFORMATION, *PFILE_FULL_DIRECTORY_INFORMATION;
+  typedef struct _FILE_ID_FULL_DIR_INFORMATION
+    FILE_ID_FULL_DIRECTORY_INFORMATION, *PFILE_ID_FULL_DIRECTORY_INFORMATION;
+  typedef struct _FILE_BOTH_DIR_INFORMATION
+    FILE_BOTH_DIRECTORY_INFORMATION, *PFILE_BOTH_DIRECTORY_INFORMATION;
+  typedef struct _FILE_ID_BOTH_DIR_INFORMATION
+    FILE_ID_BOTH_DIRECTORY_INFORMATION, *PFILE_ID_BOTH_DIRECTORY_INFORMATION;
 
   typedef struct _FILE_BASIC_INFORMATION {
     LARGE_INTEGER CreationTime;
@@ -329,8 +340,8 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
   } FILE_NAME_INFORMATION, *PFILE_NAME_INFORMATION;
 
   typedef struct _FILE_RENAME_INFORMATION {
-    BOOLEAN Replace;
-    HANDLE RootDir;
+    BOOLEAN ReplaceIfExists;
+    HANDLE RootDirectory;
     ULONG FileNameLength;
     WCHAR FileName[1];
   } FILE_RENAME_INFORMATION, *PFILE_RENAME_INFORMATION;
@@ -584,9 +595,9 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
     ULONG LowestPhysicalPage;
     ULONG HighestPhysicalPage;
     ULONG AllocationGranularity;
-    ULONG LowestUserAddress;
-    ULONG HighestUserAddress;
-    ULONG ActiveProcessors;
+    ULONG_PTR LowestUserAddress;
+    ULONG_PTR HighestUserAddress;
+    ULONG_PTR ActiveProcessors;
     CCHAR NumberOfProcessors;
   } SYSTEM_BASIC_INFORMATION,*PSYSTEM_BASIC_INFORMATION;
 
@@ -765,7 +776,7 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
   ULONG WINAPI RtlNtStatusToDosError (NTSTATUS Status);
   NTSTATUS WINAPI NtQueryInformationProcess(HANDLE ProcessHandle,PROCESSINFOCLASS ProcessInformationClass,PVOID ProcessInformation,ULONG ProcessInformationLength,PULONG ReturnLength);
   NTSTATUS WINAPI NtQueryInformationThread(HANDLE ThreadHandle,THREADINFOCLASS ThreadInformationClass,PVOID ThreadInformation,ULONG ThreadInformationLength,PULONG ReturnLength);
-  NTSTATUS WINAPI NtQueryInformationFile(HANDLE hFile,PIO_STATUS_BLOCK io,PVOID ptr,LONG len,FILE_INFORMATION_CLASS FileInformationClass);
+  NTSTATUS WINAPI NtQueryInformationFile(HANDLE hFile,PIO_STATUS_BLOCK io,PVOID ptr,ULONG len,FILE_INFORMATION_CLASS FileInformationClass);
   NTSTATUS WINAPI NtQueryObject(HANDLE Handle,OBJECT_INFORMATION_CLASS ObjectInformationClass,PVOID ObjectInformation,ULONG ObjectInformationLength,PULONG ReturnLength);
   NTSTATUS WINAPI NtQuerySystemInformation(SYSTEM_INFORMATION_CLASS SystemInformationClass,PVOID SystemInformation,ULONG SystemInformationLength,PULONG ReturnLength);
   NTSTATUS WINAPI NtQuerySystemTime(PLARGE_INTEGER SystemTime);

@@ -1,3 +1,91 @@
+2013-03-21  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Partial merge from trunk r5541:
+	2012-01-16  Rafaël Carré <funman@videolan.org>
+	* lib32/msvcr90d.def: Mark atexit with DATA.
+	* lib64/msvcr90d.def: Likewise.
+
+2013-03-21  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from trunk revs.5540 & 5613:
+	2013-02-23  David Nadlinger  <code@klickverbot.at>
+	* crt/tlssup.c (_tls_used): Remove +1 form _tls_start to avoid
+	section-relative offset displacement.
+
+	2013-01-14  Kai Tietz  <ktietz@redhat.com>
+	* crt/tlssup.c (_tls_start,_tls_end): Make variables
+	pointer-typed, so that alignment for start-address is
+	on pointer-alignment.
+
+2012-11-05  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from trunk rev. 5436:
+	Jonathan Yong  <jon_y@users.sourceforge.net>
+	* iphlpapi.def: Fix double @nn, add missing @0, regenerate from Win7.
+
+2012-09-12  Dongsheng Song  <dongsheng@users.sourceforge.net>
+
+	* lib32/msvcr110.def: New.
+	* lib64/msvcr110.def: New.
+
+2012-08-10  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* misc/getopt.c (optreset): Define as __mingw_optreset (bugs
+	#3554856, 3556105.)
+
+2012-08-08  Kai Tietz  <ktietz@redhat.com>
+
+	* gdtoa/dg_qnan.h: Make Nan constants positive valued.
+
+2012-07-17  Kai Tietz  <ktietz@redhat.com>
+
+	PR 3544372
+	* misc/mingw_pformat.h (PFORMAT_TO_FILE): Increased constant.
+	(PFORMAT_NOLIMIT): Likewise.
+
+2012-07-11  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* lib32/tapi32.def: Add missing exports.
+
+2012-07-10  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* crt/tlsmthread.c: Removed leftovers of Win9X/Me mingwm10.dll
+	support.
+
+2012-07-06  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* crt/tlssup.c: Removed Windows 9X/Me mingwm10.dll support.
+
+2012-06-29  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from the trunk rev. 4808:
+	2012-02-07  Rafaël Carré  <funman@videolan.org>
+	* libsrc/dxva-uuid.c (New file): Add DXVA UUIDs
+
+2012-06-28  Ozkan Sezer  <sezeroz@gmail.com>
+
+	Merge from trunk rev.5048:
+	2012-05-22  Kai Tietz  <ktietz@redhat.com>
+	* crt/crtexe.c (__mingw_winmain_hInstance): Initialize for
+	console-mode, too.
+
+2012-05-23  Ozkan Sezer  <sezeroz@gmail.com>
+
+	* lib32/cabinet.def: New def, based on a patch by Ray Donnelly.
+	* Makefile.am (lib32_DATA): Add lib32/cabinet.def to build.
+	* Makefile.in: Regenerate.
+
+2012-05-02  Kai Tietz  <ktietz@redhat.com>
+
+	PR 3521401
+	* gdtoa/strtodnrp.c (__strtod): Add Int_max initializer to fpi.
+	* gdtoa/strtof.c (__strtof): Add Int_max initializer to fpi0.
+	* gdtoa/strtopx.c (__strtopx): Add Int_max initializer to fpi0.
+	PR 3522948
+	* intrincs/RtlSecureZeroMemory.c: New file.
+	* Makefile.am: Add RtlSecureZeroMemory.c file.
+	* Makefile.in: Regenerated.
+
 2012-01-19  Ozkan Sezer  <sezeroz@gmail.com>
 
 	Partially revert rev. 3656:
