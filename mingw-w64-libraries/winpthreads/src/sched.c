@@ -170,7 +170,7 @@ int sched_getscheduler(pid_t pid)
   return SCHED_OTHER;
 }
 
-int sched_setscheduler(pid_t pid, int pol)
+int sched_setscheduler(pid_t pid, int pol, const struct sched_param *param)
 {
   if (pid != 0)
   {

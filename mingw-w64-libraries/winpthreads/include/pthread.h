@@ -246,7 +246,7 @@ int WINPTHREAD_API sched_yield(void);
 int WINPTHREAD_API sched_get_priority_min(int pol);
 int WINPTHREAD_API sched_get_priority_max(int pol);
 int WINPTHREAD_API sched_getscheduler(pid_t pid);
-int WINPTHREAD_API sched_setscheduler(pid_t pid, int pol);
+int WINPTHREAD_API sched_setscheduler(pid_t pid, int pol, const struct sched_param *param);
 
 #endif
 
